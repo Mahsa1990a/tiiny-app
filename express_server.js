@@ -15,6 +15,16 @@ app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
+// @ route            GET /hello
+// @ description      it is an example
+// @ access           Public
+app.get("/hello", (req, res) => {
+  res.send("<html><body>Hello <b>World</b></body></html>\n");
+});
+
+// @ route            GET /urls.json
+// @ description      JSON string representing the entire urlDatabase object
+// @ access           Public
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
