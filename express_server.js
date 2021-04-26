@@ -17,6 +17,14 @@ app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
+// @ route            GET /urls
+// @ description      showing urls
+// @ access           Public
+app.get("/urls", (req, res) => {
+  const templateVars = { urls: urlDatabase };
+  res.render("urls_index", templateVars);
+});
+
 // @ route            GET /hello
 // @ description      it is an example
 // @ access           Public
