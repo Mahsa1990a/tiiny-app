@@ -6,7 +6,16 @@ const PORT = 8080;
 const requestHandler = function(request, response) {
 
   console.log('In requestHandler');
-  response.end(`Requested Path: ${request.url}\nRequest Method: ${request.method}`);
+  // response.end(`Requested Path: ${request.url}\nRequest Method: ${request.method}`);
+
+  if (request.url === "/") {
+    response.end("Welcome!");
+  } else if (request.url === "/urls") {
+    response.end("www.lighthouselabs.ca\nwww.google.com");
+  } else {
+    response.statusCode = 404;
+    response.end("404 Page not found");
+  }
 };
 
 const server = http.createServer(requestHandler);    // createServer and listen funtions are non-blocking and will return immediately
