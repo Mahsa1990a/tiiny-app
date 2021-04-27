@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 
 const PORT = 8080; // default port 8080
 
@@ -8,6 +9,7 @@ app.set("view engine", "ejs"); // This tells the Express app to use EJS as its t
 app.use(bodyParser.urlencoded({ 
   extended: false 
 }));
+app.use(cookieParser());
 
 
 const urlDatabase = {
