@@ -62,6 +62,16 @@ app.post("/urls", (req, res) => {
   res.redirect(`/urls/${shortURL}`);
 });
 
+// @ route            GET /urls
+// @ description      To handle shortURL requests and redirect to its longURL
+// @ access           Public
+app.get("/u/:shortURL", (req, res) => {
+  // Requests to the endpoint "/u/:shortURL" will redirect to its longURL
+  const shortURL = req.params.shortURL;
+  const longURL = urlDatabase[shortURL]; // or directly urlDatabase[req.params.shortURL]
+  res.redirect(longURL);
+});
+
 // @ route            GET /urls:shortURL
 // @ description      display a single URL and its shortened form  // :id means this part of the url will be available in the req.params object
 // @ access           Public
