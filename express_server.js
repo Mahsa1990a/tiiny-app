@@ -46,8 +46,9 @@ app.get("/urls/:shortURL", (req, res) => {
     shortURL, 
     longURL
   };
-  console.log(shortURL);
-  console.log(longURL);
+  console.log("req.params", req.params); //{ shortURL: 'b2xVn2' }
+  console.log(shortURL); //b2xVn2
+  console.log(longURL); //http://www.lighthouselabs.ca
 
 
   res.render("urls_show", templateVars);
