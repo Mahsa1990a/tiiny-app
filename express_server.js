@@ -37,6 +37,15 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
+// @ route            POST /urls
+// @ description      To handle the form submission
+// @ access           Public
+app.post("/urls", (req, res) => {
+  console.log("req.body:", req.body); // Log the POST request body to the console // req.body:{ longURL: 'http://google.com' } it's what you typesd in browser
+  //                                                                                       This longURL is what we put in input attribute as name
+  res.send("Ok");
+});
+
 // @ route            GET /urls:shortURL
 // @ description      display a single URL and its shortened form  // :id means this part of the url will be available in the req.params object
 // @ access           Public
