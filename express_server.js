@@ -1,8 +1,13 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
+
 const PORT = 8080; // default port 8080
 
 app.set("view engine", "ejs"); // This tells the Express app to use EJS as its templating engine
+app.use(bodyParser.urlencoded({ 
+  extended: false 
+}));
 
 
 const urlDatabase = {
