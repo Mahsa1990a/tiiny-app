@@ -100,7 +100,7 @@ app.get("/urls/:shortURL", (req, res) => {
 // @ description      Delete url
 // @ access           Public
 app.post("/urls/:shortURL/delete", (req, res) => {
-  const shortURL = req.params.shortURL; //delet this would be enough because it's a key
+  const shortURL = req.params.shortURL; //delete this would be enough because it's a key
   delete urlDatabase[shortURL];
   res.redirect("/urls");
 });
