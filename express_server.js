@@ -105,6 +105,16 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   res.redirect("/urls");
 });
 
+// @ route            POST /urls/:id
+// @ description      Update url
+// @ access           Public
+app.post("/urls/:shortURL", (req, res) => {
+  const shortURL = req.params.shortURL;
+  const longURL = req.body.longURL;
+
+  urlDatabase[shortURL] = longURL; //update longURL
+});
+
 
 // @ route            GET /hello
 // @ description      it is an example
