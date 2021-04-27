@@ -96,6 +96,15 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
+// @ route            POST /urls/:shortURL/delete
+// @ description      Delete url
+// @ access           Public
+app.post("/urls/:shortURL/delete", (req, res) => {
+  const shortURL = req.params.shortURL; //delet this would be enough because it's a key
+  delete urlDatabase[shortURL];
+  res.redirect("/urls");
+});
+
 
 // @ route            GET /hello
 // @ description      it is an example
