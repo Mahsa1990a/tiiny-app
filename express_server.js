@@ -15,6 +15,15 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+// Generating a "unique" shortURL
+function generateRandomString() {
+  //Math.random().toString(36).substr(2, length)
+  return Math.random().toString(36).substr(2, 6);
+}
+// console.log(generateRandomString())
+
+/////////////////////////////////////////////////////////////////////////////////////
+
 // @ route            GET /
 // @ description      Home page
 // @ access           Public
