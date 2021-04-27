@@ -25,7 +25,7 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
-// @ route            GET /urls/new (Should ebe above app.get("/urls/:id", ...))
+// @ route            GET /urls/new (Should ebe above app.get("/urls/:id", ...) // routes should be ordered from most specific to least specific)
 // @ description      To present the form to the user
 // @ access           Public
 app.get("/urls/new", (req, res) => {
