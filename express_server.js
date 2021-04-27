@@ -52,7 +52,14 @@ app.get("/urls/new", (req, res) => {
 app.post("/urls", (req, res) => {
   console.log("req.body:", req.body); // Log the POST request body to the console // req.body:{ longURL: 'http://google.com' } it's what you typesd in browser
   //                                                                                       This longURL is what we put in input attribute as name
-  res.send("Ok");
+  const shortURL = generateRandomString();
+  const longURL = req.body.longURL;
+
+  // Save the longURL and shortURL to our urlDatabase
+  urlDatabase[shortURL] = longURL; 
+  // console.log(longURL);
+
+  res.redirect(`/urls/${shortURL}`);
 });
 
 // @ route            GET /urls:shortURL
@@ -71,9 +78,9 @@ app.get("/urls/:shortURL", (req, res) => {
     shortURL, 
     longURL
   };
-  console.log("req.params", req.params); //{ shortURL: 'b2xVn2' }
-  console.log(shortURL); //b2xVn2
-  console.log(longURL); //http://www.lighthouselabs.ca
+  // console.log("req.params", req.params); //{ shortURL: 'b2xVn2' }
+  // console.log(shortURL); //b2xVn2
+  // console.log(longURL); //http://www.lighthouselabs.ca
 
 
   res.render("urls_show", templateVars);
