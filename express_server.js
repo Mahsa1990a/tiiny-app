@@ -25,6 +25,33 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
+// @ route            GET /urls:shortURL
+// @ description      display a single URL and its shortened form  // :id means this part of the url will be available in the req.params object
+// @ access           Public
+// app.get("/urls:shortURL", (req, res) => {
+//   console.log("req.params", req.params)
+//   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[shortURL] };
+//   res.render("urls_show", templateVars);
+// });
+app.get("/urls/:shortURL", (req, res) => {
+
+  // const templateVars = { 
+  //   shortURL: req.params.shortURL, 
+  //   longURL: urlDatabase[req.params.shortURL]
+  // };   OR
+  
+  const shortURL = req.params.shortURL;
+  const longURL = urlDatabase[shortURL];
+  const templateVars = { 
+    shortURL, 
+    longURL
+  };
+  console.log(shortURL);
+  console.log(longURL);
+
+
+  res.render("urls_show", templateVars);
+});
 // @ route            GET /hello
 // @ description      it is an example
 // @ access           Public
