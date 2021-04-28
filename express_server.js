@@ -139,7 +139,7 @@ app.post("/login", (req, res) => {
 // @ route            POST /logout
 // @ description      It clears the username cookie and redirects the user back to the /urls page
 // @ access           Public
-app.post("/login", (req, res) => {
+app.post("/logout", (req, res) => {
 
   res.clearCookie('username', req.body.username); //or res.clearCookie("username") only the key
   res.redirect("/urls");
