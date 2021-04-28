@@ -141,28 +141,6 @@ app.post("/urls/:shortURL", (req, res) => {
   urlDatabase[shortURL] = longURL; //update longURL
 });
 
-// @ route            POST /login
-// @ description      It should set a cookie named username to the value submitted in the request body via the login form
-// @ access           Public
-app.post("/login", (req, res) => {
-  // It should set a cookie named username to the value submitted in the request body via the login form
-  // console.log(req.body.username); will show what ever we put inside box in browser
-
-  res.cookie('username', req.body.username); 
-  res.redirect("/urls");
-
-});
-
-// @ route            POST /logout
-// @ description      It clears the username cookie and redirects the user back to the /urls page
-// @ access           Public
-app.post("/logout", (req, res) => {
-
-  res.clearCookie('username', req.body.username); //or res.clearCookie("username") only the key
-  res.redirect("/urls");
-
-});
-
 // @ route            GET /register
 // @ description      Registration Page
 // @ access           Public
@@ -230,9 +208,14 @@ app.get("/login", (req, res) => {
 });
 
 // @ route            POST /login
-// @ description      Login Page
+// @ description      It should set a cookie named username to the value submitted in the request body via the login form
 // @ access           Public
 app.post("/login", (req, res) => {
+
+  // It should set a cookie named username to the value submitted in the request body via the login form
+  // console.log(req.body.username); will show what ever we put inside box in browser
+
+  // res.cookie('username', req.body.username); 
   
   const email = req.body.email;
   const password = req.body.password;
@@ -245,6 +228,18 @@ app.post("/login", (req, res) => {
   }
   res.cookie('user_id', user.id); //else : user exist and password matchs
   res.redirect("/urls");
+});
+
+// @ route            POST /logout
+// @ description      It clears the username cookie and redirects the user back to the /urls page
+// @ access           Public
+app.post("/logout", (req, res) => {
+
+  // res.clearCookie('username', req.body.username); //or res.clearCookie("username") only the key
+  //Modify the logout endpoint to clear the correct user_id cookie instead of the username one:
+  res.clearCookie('user_id');
+  res.redirect("/urls");
+
 });
 
 // @ route            GET /hello
