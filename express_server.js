@@ -75,7 +75,7 @@ app.get("/urls", (req, res) => {
   if(!user1) {
     return res.redirect('/login');
   }
-  const urlOfTheUsers = urlsOfUsers(user); //URLs where the userID is equal to the id of the currently logged-in user
+  const urlOfTheUsers = urlsForUser(user); //URLs where the userID is equal to the id of the currently logged-in user
 
   const templateVars = { 
     // urls: urlDatabase, update to:
@@ -141,7 +141,7 @@ app.get("/urls/:shortURL", (req, res) => {
   if (!user) {
     return res.redirect('/login');
   }
-  const urlOfTheUsers = urlsOfUsers(user);
+  const urlOfTheUsers = urlsForUser(user);
   
   // const templateVars = { 
   //   shortURL: req.params.shortURL, 
