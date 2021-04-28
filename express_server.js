@@ -218,6 +218,17 @@ app.post("/register", (req, res) => {
   
 });
 
+// @ route            GET /login
+// @ description      Login Page
+// @ access           Public
+app.get("/login", (req, res) => {
+  const templateVars = { 
+    // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
+    user: req.cookies['user_id']
+  };
+  res.render("login", templateVars);
+});
+
 // @ route            GET /hello
 // @ description      it is an example
 // @ access           Public
