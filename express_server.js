@@ -105,7 +105,8 @@ app.post("/urls", (req, res) => {
 app.get("/u/:shortURL", (req, res) => {
   // Requests to the endpoint "/u/:shortURL" will redirect to its longURL
   const shortURL = req.params.shortURL;
-  const longURL = urlDatabase[shortURL]; // or directly urlDatabase[req.params.shortURL]
+  // const longURL = urlDatabase[shortURL]; // or directly urlDatabase[req.params.shortURL]  // update it after update urlDatabase obj
+  const longURL = urlDatabase[shortURL].longURL;
   res.redirect(longURL);
 });
 
