@@ -10,15 +10,15 @@
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
 
         <% if (user){ %>
-          <h5 style="margin-left: 1300px; margin-top: 8px; margin-right: 5px;">Logged in as : <%= user["email"] %></h5>
+          <h5 class="navbar-brand" style="color: black; font-size: medium; margin-left: 1300px;">Logged in as : <%= user["email"] %></h5>
           <form action="/logout" method="POST">
             <button type="submit" class="btn btn-primary">Logout</button>
           </form>
         <% } else { %>
-          <form action="/login" method="POST" style="margin-left: 1300px;">
-            <input type="text" name="username">
-            <button type="submit" class="btn btn-primary">Login</button>
-          </form>
+          <div class="row float-right" style="margin-left: 1300px;"></div>
+            <a class="nav-item nav-link" href="/login"><b>Login</b></a>
+            <a class="nav-item nav-link" href="/register"><b>Register</b></a>
+          </div>
         <% } %>
       </div>
     </div>
