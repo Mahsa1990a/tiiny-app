@@ -53,7 +53,8 @@ app.get("/", (req, res) => {
 app.get("/urls", (req, res) => {
   const templateVars = { 
     urls: urlDatabase,
-    username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
+    // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
+    user: req.cookies['user_id']
   };
   res.render("urls_index", templateVars);
 });
@@ -63,7 +64,8 @@ app.get("/urls", (req, res) => {
 // @ access           Public
 app.get("/urls/new", (req, res) => {
   const templateVars = { 
-    username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
+    // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
+    user: req.cookies['user_id']
   };
   res.render("urls_new", templateVars);
 });
@@ -109,7 +111,8 @@ app.get("/urls/:shortURL", (req, res) => {
   const templateVars = { 
     shortURL, 
     longURL,
-    username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
+    // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
+    user: req.cookies['user_id']
   };
   // console.log("req.params", req.params); //{ shortURL: 'b2xVn2' }
   // console.log(shortURL); //b2xVn2
@@ -165,9 +168,36 @@ app.post("/logout", (req, res) => {
 // @ access           Public
 app.get("/register", (req, res) => {
   const templateVars = { 
-    username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
+    // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
+    user: req.cookies['user_id']
   };
   res.render("register", templateVars);
+});
+
+// @ route            POST /register
+// @ description      Registration Page
+// @ access           Public
+app.post("/register", (req, res) => {
+  
+  console.log("req.body of POST /register", req.body); //{ email: 'amerimahsa@yahoo.com', password: '123'}
+
+  const randomId = generateRandomString();
+  const email = req.body.email;
+  const password = req.body.password; // OR const {email, password} = req.body;
+
+  const user = {
+    id: randomId,
+    email,
+    password
+  };
+  users[randomId] = user;
+
+  console.log("users from line 189",users)
+
+  //set a user_id cookie containing the user's newly generated ID
+  res.cookie('user_id', randomId);
+  res.redirect("/urls");
+  
 });
 
 // @ route            GET /hello
