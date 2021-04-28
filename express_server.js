@@ -117,6 +117,17 @@ app.post("/urls/:shortURL", (req, res) => {
   urlDatabase[shortURL] = longURL; //update longURL
 });
 
+// @ route            POST /login
+// @ description      It should set a cookie named username to the value submitted in the request body via the login form
+// @ access           Public
+app.post("/login", (req, res) => {
+  // It should set a cookie named username to the value submitted in the request body via the login form
+  // console.log(req.body.username); will show what ever we put inside box in browser
+
+  res.cookie('username', req.body.username); 
+  res.redirect("/urls");
+
+});
 
 // @ route            GET /hello
 // @ description      it is an example
