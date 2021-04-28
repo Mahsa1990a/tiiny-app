@@ -37,7 +37,10 @@ app.get("/", (req, res) => {
 // @ description      showing urls
 // @ access           Public
 app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase };
+  const templateVars = { 
+    urls: urlDatabase,
+    username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
+  };
   res.render("urls_index", templateVars);
 });
 
@@ -88,7 +91,8 @@ app.get("/urls/:shortURL", (req, res) => {
   const longURL = urlDatabase[shortURL];
   const templateVars = { 
     shortURL, 
-    longURL
+    longURL,
+    username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
   };
   // console.log("req.params", req.params); //{ shortURL: 'b2xVn2' }
   // console.log(shortURL); //b2xVn2
