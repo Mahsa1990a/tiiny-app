@@ -160,6 +160,10 @@ app.get("/urls/:shortURL", (req, res) => {
     user,
     urlOfTheUsers
   };
+
+  if (urlDatabase[shortURL] && req.cookies.user_id !== urlDatabase[shortURL].userID) {
+    res.status(400).send("<h1> 🛑 It Doesn't belong you! 🛑 </h1>")
+  }
   // console.log("req.params", req.params); //{ shortURL: 'b2xVn2' }
   // console.log(shortURL); //b2xVn2
   // console.log(longURL); //http://www.lighthouselabs.ca
