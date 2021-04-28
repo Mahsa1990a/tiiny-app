@@ -174,16 +174,34 @@ app.get("/register", (req, res) => {
   res.render("register", templateVars);
 });
 
+//helper Func: for POST Register
+const fetchEmail = function(database, email) {
+  for (let key in database) { //database is users so key => id = userRandomID,user2RandomID,ed5f5p(for newUser)
+    // console.log("Key from line 180", key);
+    // console.log("database[key] from line 180", database[key]); //{ id: 'mb3dt1', email: 'amerimahsa@yahoo.com', password: '123' }
+
+    if (database[key].email === email) {
+      return database[key];  //{id: ..., email: ..., pass: ...}
+    }
+  } return false;
+};
+
 // @ route            POST /register
 // @ description      Registration Page
 // @ access           Public
 app.post("/register", (req, res) => {
   
-  console.log("req.body of POST /register", req.body); //{ email: 'amerimahsa@yahoo.com', password: '123'}
+  // console.log("req.body of POST /register", req.body); //{ email: 'amerimahsa@yahoo.com', password: '123'}
 
   const randomId = generateRandomString();
   const email = req.body.email;
   const password = req.body.password; // OR const {email, password} = req.body;
+
+  if (email.length === 0 || password.length === 0) {
+    return res.status(400).send("<h1> 🛑 Email or Password is invalid! 🛑 </h1>");
+  } else if (fetchEmail(users, email)) { //If someone tries to register with an email that is already in the users object
+    return res.status(400).send("<h1> 🛑 Email is already in use! 🛑 </h1>");
+  }
 
   const user = {
     id: randomId,
