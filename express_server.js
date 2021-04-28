@@ -161,9 +161,9 @@ app.get("/urls/:shortURL", (req, res) => {
     urlOfTheUsers
   };
 
-  if (urlDatabase[shortURL] && req.cookies.user_id !== urlDatabase[shortURL].userID) {
-    res.status(400).send("<h1> 🛑 It Doesn't belong you! 🛑 </h1>")
-  }
+  // if (urlDatabase[shortURL] && req.cookies.user_id !== urlDatabase[shortURL].userID) {
+  //   res.status(400).send("<h1> 🛑 It Doesn't belong you! 🛑 </h1>")
+  // }
   // console.log("req.params", req.params); //{ shortURL: 'b2xVn2' }
   // console.log(shortURL); //b2xVn2
   // console.log(longURL); //http://www.lighthouselabs.ca
@@ -177,8 +177,15 @@ app.get("/urls/:shortURL", (req, res) => {
 // @ access           Public
 app.post("/urls/:shortURL/delete", (req, res) => {
   const shortURL = req.params.shortURL; //delete this would be enough because it's a key
-  delete urlDatabase[shortURL];
-  res.redirect("/urls");
+  // delete urlDatabase[shortURL]; update to give access for owner od URL to delete
+
+  if (urlDatabase[shortURL] && req.cookies.user_id === urlDatabase[shortURL].userID) {
+    delete urlDatabase[shortURL];
+    res.redirect("/urls");
+  } else {
+    res.status(403).send("<h1> 🛑 You must be logged in to DELETE URLs! 🛑 </h1>");
+  }
+  // res.redirect("/urls");
 });
 
 // @ route            POST /urls/:id
