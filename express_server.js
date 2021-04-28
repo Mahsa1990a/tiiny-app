@@ -21,8 +21,22 @@ const urlDatabase = {
 function generateRandomString() {
   //Math.random().toString(36).substr(2, length)
   return Math.random().toString(36).substr(2, 6);
-}
+};
 // console.log(generateRandomString())
+
+// Create users Obj  //In order to store our users, we'll need a "data store" 
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+};
 
 /////////////////////////////////////////////////////////////////////////////////////
 
