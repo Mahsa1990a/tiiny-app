@@ -53,6 +53,17 @@ app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
+//helper Function : returns the URLs where the userID is equal to the id of the currently logged-in user
+const urlsForUser = (id) => {
+  let urlsOfUsers = {};
+  for (let key in urlDatabase) {
+    if (urlDatabase[key].userID === id) {
+      urlsOfUsers[key] = urlDatabase[key];
+    }
+  }
+  return urlsOfUsers;
+};
+
 // @ route            GET /urls
 // @ description      showing urls
 // @ access           Public
