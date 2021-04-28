@@ -210,7 +210,7 @@ app.post("/register", (req, res) => {
   };
   users[randomId] = user;
 
-  console.log("users from line 189",users)
+  // console.log("users from line 189",users)
 
   //set a user_id cookie containing the user's newly generated ID
   res.cookie('user_id', randomId);
