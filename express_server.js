@@ -109,14 +109,18 @@ app.get("/urls/new", (req, res) => {
 // @ description      To handle the form submission
 // @ access           Public
 app.post("/urls", (req, res) => {
-  console.log("req.body:", req.body); // Log the POST request body to the console // req.body:{ longURL: 'http://google.com' } it's what you typesd in browser
+  // console.log("req.body:", req.body); // Log the POST request body to the console // req.body:{ longURL: 'http://google.com' } it's what you typesd in browser
   //                                                                                       This longURL is what we put in input attribute as name
   const shortURL = generateRandomString();
   const longURL = req.body.longURL;
 
   // Save the longURL and shortURL to our urlDatabase
-  urlDatabase[shortURL] = longURL; 
+  // urlDatabase[shortURL] = longURL;  update:
   // console.log(longURL);
+  urlDatabase[shortURL] = {
+    longURL,
+    userID: req.cookies.user_id
+  }
 
   res.redirect(`/urls/${shortURL}`);
 });
@@ -194,8 +198,17 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 app.post("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = req.body.longURL;
+  // urlDatabase[shortURL] = longURL; //update longURL //update
 
-  urlDatabase[shortURL] = longURL; //update longURL
+  if (urlDatabase[shortURL] && req.cookies.user_id === urlDatabase[shortURL].userID) {
+    urlDatabase[shortURL] = {
+      longURL,
+      userID: req.cookies.user_id
+    };
+    res.redirect("/urls");
+  } else {
+    res.status(403).send("<h1> 🛑 You must be logged in to EDIT URLs! 🛑 </h1>");
+  }
 });
 
 // @ route            GET /register
