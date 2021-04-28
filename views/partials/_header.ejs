@@ -9,8 +9,8 @@
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
 
-        <% if (username){ %>
-          <h5 style="margin-left: 1300px; margin-top: 8px; margin-right: 5px;"><%= `Logged in as : ${username}` %></h5>
+        <% if (user){ %>
+          <h5 style="margin-left: 1300px; margin-top: 8px; margin-right: 5px;">Logged in as : <%= user["email"] %></h5>
           <form action="/logout" method="POST">
             <button type="submit" class="btn btn-primary">Logout</button>
           </form>
@@ -18,7 +18,6 @@
           <form action="/login" method="POST" style="margin-left: 1300px;">
             <input type="text" name="username">
             <button type="submit" class="btn btn-primary">Login</button>
-            <!-- <p><%= `logged in as ${username}` %></p>   update it with if statement -->
           </form>
         <% } %>
       </div>
