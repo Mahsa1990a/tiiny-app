@@ -48,7 +48,10 @@ app.get("/urls", (req, res) => {
 // @ description      To present the form to the user
 // @ access           Public
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  const templateVars = { 
+    username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
+  };
+  res.render("urls_new", templateVars);
 });
 
 // @ route            POST /urls
