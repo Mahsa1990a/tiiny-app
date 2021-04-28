@@ -63,10 +63,17 @@ app.get("/urls", (req, res) => {
 // @ description      To present the form to the user
 // @ access           Public
 app.get("/urls/new", (req, res) => {
+
+  const user = users[req.cookies.user_id] ? users[req.cookies.user_id].email : "";
   const templateVars = { 
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
-    user: req.cookies['user_id']
+    // user: req.cookies['user_id'] after defining user update to :
+    user
   };
+
+  if (!user) { //if user is not logged in
+    return res.redirect("/login");
+  }
   res.render("urls_new", templateVars);
 });
 
