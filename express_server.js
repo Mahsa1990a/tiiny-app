@@ -11,10 +11,16 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 
+//It's an object with shortURL keys and longURL values
+// const urlDatabase = {
+//   "b2xVn2": "http://www.lighthouselabs.ca",
+//   "9sm5xK": "http://www.google.com"
+// };
 
+//Update urlDatabase obj, keep shortURL as the key, change the value to an object that has longURL and userID keys itself:
 const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
+  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
 };
 
 // Generating a "unique" shortURL
