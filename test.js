@@ -28,3 +28,27 @@ console.log(urlDatabase); // will be:
 //   '9sm5xK': 'http://www.google.com',
 //   u3uzs0: 'http://google.com'
 // }
+
+/////////////////////////////////////////////////////////////////////////
+
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+};
+
+let user = users["user3RandomID"]
+user = {
+  id: "user3RandomID", 
+  email: "user3@example.com", 
+  password: "dishwasher-funk3"
+};
+
+console.log(users);
