@@ -75,7 +75,7 @@ app.get("/urls", (req, res) => {
   if(!user1) {
     return res.redirect('/login');
   }
-  const urlOfTheUsers = urlsOfUsers(user); //RLs where the userID is equal to the id of the currently logged-in user
+  const urlOfTheUsers = urlsOfUsers(user); //URLs where the userID is equal to the id of the currently logged-in user
 
   const templateVars = { 
     // urls: urlDatabase, update to:
@@ -137,18 +137,28 @@ app.get("/u/:shortURL", (req, res) => {
 // @ access           Public
 app.get("/urls/:shortURL", (req, res) => {
 
+  const user = users[req.cookies.user_id] ? users[req.cookies.user_id].email : "";
+  if (!user) {
+    return res.redirect('/login');
+  }
+  const urlOfTheUsers = urlsOfUsers(user);
+  
   // const templateVars = { 
   //   shortURL: req.params.shortURL, 
   //   longURL: urlDatabase[req.params.shortURL]
   // };   OR
   
   const shortURL = req.params.shortURL;
-  const longURL = urlDatabase[shortURL];
+  // const longURL = urlDatabase[shortURL]; update after updating urlDatabase obj
+  const longURL = urlDatabase[shortURL].longURL;
+
   const templateVars = { 
     shortURL, 
     longURL,
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
-    user: req.cookies['user_id']
+    // user: req.cookies['user_id'] update to:
+    user,
+    urlOfTheUsers
   };
   // console.log("req.params", req.params); //{ shortURL: 'b2xVn2' }
   // console.log(shortURL); //b2xVn2
