@@ -294,7 +294,9 @@ app.post("/register", (req, res) => {
   // console.log("users from line 189",users)
 
   //set a user_id cookie containing the user's newly generated ID
-  res.cookie('user_id', randomId);
+  // res.cookie('user_id', randomId); // update with req.session:
+  req.session['user_id'] = randomId; // it's not func anymore, it's an obj so we use [''] // it will save randomId(userId) into the cookie by name user_id
+
   res.redirect("/urls");
   
 });
@@ -332,7 +334,9 @@ app.post("/login", (req, res) => {
   } else if (!user || !bcrypt.compareSync(password, user.password)) {  //hashing first one and compare it to the second => bcrypt.compareSync("B4c0/\/", hash) 
     return res.status(403).send("<h1> 🛑 User or Password is NOT MATCH!!! 🛑 First Register </h1>"); 
   }
-  res.cookie('user_id', user.id); //else : user exist and password matchs
+  //else : user exist and password matchs
+  // res.cookie('user_id', randomId); // update with req.session:
+  req.session['user_id'] = randomId; // it's not func anymore, it's an obj so we use [''] // it will save randomId(userId) into the cookie by name user_id
   res.redirect("/urls");
 });
 
@@ -343,7 +347,9 @@ app.post("/logout", (req, res) => {
 
   // res.clearCookie('username', req.body.username); //or res.clearCookie("username") only the key
   //Modify the logout endpoint to clear the correct user_id cookie instead of the username one:
-  res.clearCookie('user_id');
+  // res.clearCookie('user_id'); //or: res.cookie('user_id', null)  //update after session:
+  req.session = null;
+
   res.redirect("/urls");
 
 });
