@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');//cookie parser as Express middleware (help us read the values from the cookie) res.cookie replace with cookieSession
+const cookieSession = require('cookie-session');//Encrypt Cookies with cookie-session middleware for security
+
 const bcrypt = require('bcrypt'); //hashing passwords
 
 const PORT = 8080; // default port 8080
@@ -10,7 +12,11 @@ app.set("view engine", "ejs"); // This tells the Express app to use EJS as its t
 app.use(bodyParser.urlencoded({ 
   extended: false 
 }));
-app.use(cookieParser());
+// app.use(cookieParser());
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}));
 
 //It's an object with shortURL keys and longURL values
 // const urlDatabase = {
