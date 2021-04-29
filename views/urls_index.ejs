@@ -27,7 +27,7 @@
           <!-- url is shortUrl and urls[url] is longUrl -->
           <tr>
             <td><%= url %></td>
-            <td><%= urls[url] %></td>
+            <td><%= urls[url]["longURL"] %></td>
             <td>
               <form method="POST" action="/urls/<%= url %>">
                 <button type="submit" class="btn btn-outline-primary">Edit</button>
