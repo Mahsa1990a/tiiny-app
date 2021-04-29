@@ -204,17 +204,20 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   // res.redirect("/urls");
 });
 
-// @ route            POST /urls/:id/edit
+// @ route            POST /urls/:id
 // @ description      Update url
 // @ access           Public
-app.post("/urls/:shortURL/edit", (req, res) => {
+app.post("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = req.body.longURL;
   const userId = req.cookies.user_id;
   // urlDatabase[shortURL] = longURL; //update longURL //update
 
   if (urlDatabase[shortURL] && userId === urlDatabase[shortURL].userID) {
-    urlDatabase[shortURL].longURL = longURL;
+    urlDatabase[shortURL] = {
+      longURL : longURL,
+      userID : userId
+    }
     res.redirect("/urls");
   } else {
     res.status(403).send("<h1> 🛑 You must be logged in to EDIT URLs! 🛑 </h1>");
