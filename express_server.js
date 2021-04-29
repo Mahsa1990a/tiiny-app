@@ -335,8 +335,8 @@ app.post("/login", (req, res) => {
     return res.status(403).send("<h1> 🛑 User or Password is NOT MATCH!!! 🛑 First Register </h1>"); 
   }
   //else : user exist and password matchs
-  // res.cookie('user_id', randomId); //res.cookie for writing the cookie // update with req.session:
-  req.session['user_id'] = randomId; // it's not func anymore, it's an obj so we use [''] // it will save randomId(userId) into the cookie by name user_id
+  // res.cookie('user_id', user.id); //res.cookie for writing the cookie // update with req.session:
+  req.session['user_id'] = user.id; // it's not func anymore, it's an obj so we use [''] // it will save randomId(userId) into the cookie by name user_id
   res.redirect("/urls");
 });
 
