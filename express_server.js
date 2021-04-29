@@ -76,9 +76,9 @@ const urlsForUser = (id) => {
 // @ access           Public
 app.get("/urls", (req, res) => {
 
-  // const user1 = users[req.cookies.user_id] ? users[req.cookies.user_id].id : ""; //if ture => return id // update with session
+  // const user1 = users[req.cookies.user_id] ? users[req.cookies.user_id].id : ""; //if ture => return id //req.cookies: for reading cookies //update with session
   const user1 = users[req.session.user_id] ? users[req.session.user_id].id : ""; //if ture => return id
-  // const user = user1 ? users[req.cookies.user_id].email : ""; // update with session
+  // const user = user1 ? users[req.cookies.user_id].email : ""; //req.cookies: for reading cookies // update with session
   const user = user1 ? users[req.session.user_id].email : "";
 
   if(!user1) {
@@ -90,7 +90,7 @@ app.get("/urls", (req, res) => {
     // urls: urlDatabase, update to:
     urls: urlOfTheUsers,
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
-    // user: req.cookies['user_id']
+    // user: req.cookies['user_id'] //req.cookies: for reading cookies
     user: user
   };
   res.render("urls_index", templateVars);
@@ -106,7 +106,7 @@ app.get("/urls/new", (req, res) => {
 
   const templateVars = { 
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
-    // user: req.cookies['user_id'] after defining user update to :
+    // user: req.cookies['user_id'] //req.cookies: for reading cookies //after defining user update to :
     user
   };
 
@@ -141,7 +141,7 @@ app.post("/urls", (req, res) => {
   // console.log(longURL);
   urlDatabase[shortURL] = {
     longURL,
-    // userID: req.cookies.user_id //update with session
+    // userID: req.cookies.user_id //req.cookies: for reading cookies //update with session
     userID: req.session.user_id
   };
 
@@ -164,7 +164,7 @@ app.get("/u/:shortURL", (req, res) => {
 // @ access           Public
 app.get("/urls/:shortURL", (req, res) => {
 
-  // const user = users[req.cookies.user_id] ? users[req.cookies.user_id].email : ""; //update with session
+  // const user = users[req.cookies.user_id] ? users[req.cookies.user_id].email : ""; //req.cookies: for reading cookies //update with session
   const user = users[req.session.user_id] ? users[req.session.user_id].email : "";
 
   if (!user) {
@@ -185,7 +185,7 @@ app.get("/urls/:shortURL", (req, res) => {
     shortURL, 
     longURL,
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
-    // user: req.cookies['user_id'] update to:
+    // user: req.cookies['user_id'] //req.cookies: for reading cookies //update to:
     user,
     urlOfTheUsers
   };
@@ -208,7 +208,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   const shortURL = req.params.shortURL; //delete this would be enough because it's a key
   // delete urlDatabase[shortURL]; update to give access for owner od URL to delete
 
-  // if (urlDatabase[shortURL] && req.cookies.user_id === urlDatabase[shortURL].userID) { //update with session
+  // if (urlDatabase[shortURL] && req.cookies.user_id === urlDatabase[shortURL].userID) { //req.cookies: for reading cookies //update with session
   if (urlDatabase[shortURL] && req.session.user_id === urlDatabase[shortURL].userID) {
     delete urlDatabase[shortURL];
     res.redirect("/urls");
@@ -224,7 +224,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 app.post("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = req.body.longURL;
-  // const userId = req.cookies.user_id; //update with session
+  // const userId = req.cookies.user_id; //req.cookies: for reading cookies //update with session
   const userId = req.session.user_id;
 
   // urlDatabase[shortURL] = longURL; //update longURL //update
@@ -246,7 +246,7 @@ app.post("/urls/:shortURL", (req, res) => {
 app.get("/register", (req, res) => {
   const templateVars = { 
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
-    // user: req.cookies['user_id'] //updated with session
+    // user: req.cookies['user_id'] //req.cookies: for reading cookies //updated with session
     user: req.session['user_id']
   };
   res.render("register", templateVars);
@@ -294,7 +294,7 @@ app.post("/register", (req, res) => {
   // console.log("users from line 189",users)
 
   //set a user_id cookie containing the user's newly generated ID
-  // res.cookie('user_id', randomId); // update with req.session:
+  // res.cookie('user_id', randomId); //res.cookie for writing the cookie  // update with req.session:
   req.session['user_id'] = randomId; // it's not func anymore, it's an obj so we use [''] // it will save randomId(userId) into the cookie by name user_id
 
   res.redirect("/urls");
@@ -307,7 +307,7 @@ app.post("/register", (req, res) => {
 app.get("/login", (req, res) => {
   const templateVars = { 
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
-    // user: req.cookies['user_id'] //updated with session
+    // user: req.cookies['user_id'] //req.cookies: for reading cookies //updated with session
     user: req.session['user_id']
   };
   res.render("login", templateVars);
@@ -321,7 +321,7 @@ app.post("/login", (req, res) => {
   // It should set a cookie named username to the value submitted in the request body via the login form
   // console.log(req.body.username); will show what ever we put inside box in browser
 
-  // res.cookie('username', req.body.username); 
+  // res.cookie('username', req.body.username); //res.cookie for writing the cookie 
   
   const email = req.body.email;
   const password = req.body.password;
@@ -335,7 +335,7 @@ app.post("/login", (req, res) => {
     return res.status(403).send("<h1> 🛑 User or Password is NOT MATCH!!! 🛑 First Register </h1>"); 
   }
   //else : user exist and password matchs
-  // res.cookie('user_id', randomId); // update with req.session:
+  // res.cookie('user_id', randomId); //res.cookie for writing the cookie // update with req.session:
   req.session['user_id'] = randomId; // it's not func anymore, it's an obj so we use [''] // it will save randomId(userId) into the cookie by name user_id
   res.redirect("/urls");
 });
