@@ -76,8 +76,10 @@ const urlsForUser = (id) => {
 // @ access           Public
 app.get("/urls", (req, res) => {
 
-  const user1 = users[req.cookies.user_id] ? users[req.cookies.user_id].id : ""; //if ture => return id
-  const user = user1 ? users[req.cookies.user_id].email : "";
+  // const user1 = users[req.cookies.user_id] ? users[req.cookies.user_id].id : ""; //if ture => return id // update with session
+  const user1 = users[req.session.user_id] ? users[req.session.user_id].id : ""; //if ture => return id
+  // const user = user1 ? users[req.cookies.user_id].email : ""; // update with session
+  const user = user1 ? users[req.session.user_id].email : "";
 
   if(!user1) {
     return res.redirect('/login');
@@ -99,7 +101,8 @@ app.get("/urls", (req, res) => {
 // @ access           Public
 app.get("/urls/new", (req, res) => {
 
-  const user = users[req.cookies.user_id] ? users[req.cookies.user_id].email : "";
+  // const user = users[req.cookies.user_id] ? users[req.cookies.user_id].email : ""; //update with session
+  const user = users[req.session.user_id] ? users[req.session.user_id].email : "";
 
   const templateVars = { 
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
@@ -138,8 +141,9 @@ app.post("/urls", (req, res) => {
   // console.log(longURL);
   urlDatabase[shortURL] = {
     longURL,
-    userID: req.cookies.user_id
-  }
+    // userID: req.cookies.user_id //update with session
+    userID: req.session.user_id
+  };
 
   res.redirect(`/urls/${shortURL}`);
 });
@@ -160,7 +164,9 @@ app.get("/u/:shortURL", (req, res) => {
 // @ access           Public
 app.get("/urls/:shortURL", (req, res) => {
 
-  const user = users[req.cookies.user_id] ? users[req.cookies.user_id].email : "";
+  // const user = users[req.cookies.user_id] ? users[req.cookies.user_id].email : ""; //update with session
+  const user = users[req.session.user_id] ? users[req.session.user_id].email : "";
+
   if (!user) {
     return res.redirect('/login');
   }
@@ -202,7 +208,8 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   const shortURL = req.params.shortURL; //delete this would be enough because it's a key
   // delete urlDatabase[shortURL]; update to give access for owner od URL to delete
 
-  if (urlDatabase[shortURL] && req.cookies.user_id === urlDatabase[shortURL].userID) {
+  // if (urlDatabase[shortURL] && req.cookies.user_id === urlDatabase[shortURL].userID) { //update with session
+  if (urlDatabase[shortURL] && req.session.user_id === urlDatabase[shortURL].userID) {
     delete urlDatabase[shortURL];
     res.redirect("/urls");
   } else {
@@ -217,7 +224,9 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 app.post("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = req.body.longURL;
-  const userId = req.cookies.user_id;
+  // const userId = req.cookies.user_id; //update with session
+  const userId = req.session.user_id;
+
   // urlDatabase[shortURL] = longURL; //update longURL //update
 
   if (urlDatabase[shortURL] && userId === urlDatabase[shortURL].userID) {
