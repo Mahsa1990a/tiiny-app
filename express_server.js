@@ -308,7 +308,8 @@ app.post("/login", (req, res) => {
 
   if (email.length === 0 || password.length === 0) {
     return res.status(403).send("<h1> 🛑 Email or Password is invalid! 🛑 </h1>");
-  } else if (!user || user.password !== password) {
+  // } else if (!user || user.password !== password) {
+  } else if (!user || !bcrypt.compareSync(password, user.password)) {  //hashing first one and compare it to the second => bcrypt.compareSync("B4c0/\/", hash) 
     return res.status(403).send("<h1> 🛑 User or Password is NOT MATCH!!! 🛑 First Register </h1>"); 
   }
   res.cookie('user_id', user.id); //else : user exist and password matchs
