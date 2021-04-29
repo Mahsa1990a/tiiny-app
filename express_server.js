@@ -342,7 +342,8 @@ app.get("/hello", (req, res) => {
 // @ description      JSON string representing the entire urlDatabase object
 // @ access           Public
 app.get("/urls.json", (req, res) => {
-  res.json(urlDatabase);
+  // res.json(urlDatabase);
+  res.json(users); //to see hashed pass
 });
 
 
