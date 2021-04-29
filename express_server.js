@@ -75,14 +75,14 @@ app.get("/urls", (req, res) => {
   if(!user1) {
     return res.redirect('/login');
   }
-  const urlOfTheUsers = urlsForUser(user); //URLs where the userID is equal to the id of the currently logged-in user
+  const urlOfTheUsers = urlsForUser(user1); //URLs where the userID is equal to the id of the currently logged-in user
 
   const templateVars = { 
     // urls: urlDatabase, update to:
     urls: urlOfTheUsers,
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
     // user: req.cookies['user_id']
-    user
+    user: user
   };
   res.render("urls_index", templateVars);
 });
