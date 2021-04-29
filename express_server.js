@@ -93,7 +93,7 @@ app.get("/urls", (req, res) => {
 app.get("/urls/new", (req, res) => {
 
   const user = users[req.cookies.user_id] ? users[req.cookies.user_id].email : "";
-  
+
   const templateVars = { 
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
     // user: req.cookies['user_id'] after defining user update to :
@@ -204,19 +204,17 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   // res.redirect("/urls");
 });
 
-// @ route            POST /urls/:id
+// @ route            POST /urls/:id/edit
 // @ description      Update url
 // @ access           Public
-app.post("/urls/:shortURL", (req, res) => {
+app.post("/urls/:shortURL/edit", (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = req.body.longURL;
+  const userId = req.cookies.user_id;
   // urlDatabase[shortURL] = longURL; //update longURL //update
 
-  if (urlDatabase[shortURL] && req.cookies.user_id === urlDatabase[shortURL].userID) {
-    urlDatabase[shortURL] = {
-      longURL,
-      userID: req.cookies.user_id
-    };
+  if (urlDatabase[shortURL] && userId === urlDatabase[shortURL].userID) {
+    urlDatabase[shortURL].longURL = longURL;
     res.redirect("/urls");
   } else {
     res.status(403).send("<h1> 🛑 You must be logged in to EDIT URLs! 🛑 </h1>");
