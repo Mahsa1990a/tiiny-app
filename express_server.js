@@ -305,7 +305,8 @@ app.post("/register", (req, res) => {
 app.get("/login", (req, res) => {
   const templateVars = { 
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
-    user: req.cookies['user_id']
+    // user: req.cookies['user_id'] //updated with session
+    user: req.session['user_id']
   };
   res.render("login", templateVars);
 });
