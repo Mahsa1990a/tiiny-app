@@ -93,6 +93,7 @@ app.get("/urls", (req, res) => {
 app.get("/urls/new", (req, res) => {
 
   const user = users[req.cookies.user_id] ? users[req.cookies.user_id].email : "";
+  
   const templateVars = { 
     // username: req.cookies["username"] //by passing username to each EJS template, it knows if the user is logged in and what their username is
     // user: req.cookies['user_id'] after defining user update to :
@@ -103,6 +104,17 @@ app.get("/urls/new", (req, res) => {
     return res.redirect("/login");
   }
   res.render("urls_new", templateVars);
+
+  //OR:
+  // if (req.cookies["user_id"]) {
+  //   const templateVars = { 
+  //    user: req.session["user_id"]
+  //   };
+  //   res.render("urls_new", templateVars);
+  // } else {
+  //   const templateVars = { user: req.session["user_id"], error1: null, error2: null };
+  //   res.render("login_user", templateVars);
+  // }
 });
 
 // @ route            POST /urls
