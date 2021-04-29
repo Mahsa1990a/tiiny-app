@@ -271,6 +271,8 @@ app.post("/register", (req, res) => {
     email,
     password: hashedPassword
   };
+
+  // console.log("hashedPassword: ", hashedPassword) for testing
   users[randomId] = user;
 
   // console.log("users from line 189",users)
@@ -309,6 +311,7 @@ app.post("/login", (req, res) => {
   if (email.length === 0 || password.length === 0) {
     return res.status(403).send("<h1> 🛑 Email or Password is invalid! 🛑 </h1>");
   // } else if (!user || user.password !== password) {
+    // !bcrypt.compareSync(password: is coming from password line 308, user.password: coming from user)   // will return true or false
   } else if (!user || !bcrypt.compareSync(password, user.password)) {  //hashing first one and compare it to the second => bcrypt.compareSync("B4c0/\/", hash) 
     return res.status(403).send("<h1> 🛑 User or Password is NOT MATCH!!! 🛑 First Register </h1>"); 
   }
