@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt'); //hashing passwords
 
 const PORT = 8080; // default port 8080
 
@@ -257,6 +258,7 @@ app.post("/register", (req, res) => {
   const randomId = generateRandomString();
   const email = req.body.email;
   const password = req.body.password; // OR const {email, password} = req.body;
+  const hashedPassword = bcrypt.hashSync(password, 10); //hashing pass
 
   if (email.length === 0 || password.length === 0) {
     return res.status(400).send("<h1> 🛑 Email or Password is invalid! 🛑 </h1>");
@@ -267,7 +269,7 @@ app.post("/register", (req, res) => {
   const user = {
     id: randomId,
     email,
-    password
+    password: hashedPassword
   };
   users[randomId] = user;
 
