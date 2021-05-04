@@ -349,9 +349,7 @@ app.post("/logout", (req, res) => {
   //Modify the logout endpoint to clear the correct user_id cookie instead of the username one:
   // res.clearCookie('user_id'); //or: res.cookie('user_id', null)  //update after session:
   req.session = null;
-
   res.redirect("/urls");
-
 });
 
 // @ route            GET /hello
