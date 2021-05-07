@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 // const cookieParser = require('cookie-parser');//cookie parser as Express middleware (help us read the values from the cookie) res.cookie replace with cookieSession
-const cookieSession = require('cookie-session');//Encrypt Cookies with cookie-session middleware for security
+const cookieSession = require('cookie-session'); //Encrypt Cookies with cookie-session middleware for security
 
 const bcrypt = require('bcrypt'); //hashing passwords
 
