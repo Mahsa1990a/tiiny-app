@@ -10,7 +10,7 @@ const PORT = 8080; // default port 8080
 
 app.set("view engine", "ejs"); // This tells the Express app to use EJS as its templating engine
 app.use(bodyParser.urlencoded({ 
-  extended: false 
+  extended: true 
 }));
 // app.use(cookieParser());
 app.use(cookieSession({
@@ -60,15 +60,17 @@ app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
-//helper Function : returns the URLs where the userID is equal to the id of the currently logged-in user
-const urlsForUser = (id) => {
-  let urlsOfUsers = {};
-  for (let key in urlDatabase) {
-    if (urlDatabase[key].userID === id) {
-      urlsOfUsers[key] = urlDatabase[key];
+//helper Function : returns the list of URLs where the userID is equal to the id of the currently logged-in user
+const urlsForUser = (urlsDb, id) => { // urlsDb => urlDatabase
+  let userUrls = {};
+
+  for (let shortURL in urlsDb) {
+    // if the url belongs to the user, add it to userUrls
+    if (urlsDb[shortURL].userID === id) {
+      userUrls[shortURL] = urlsDb[shortURL];
     }
   }
-  return urlsOfUsers;
+  return userUrls;
 };
 
 // @ route            GET /urls
@@ -84,7 +86,7 @@ app.get("/urls", (req, res) => {
   if(!user1) {
     return res.redirect('/login');
   }
-  const urlOfTheUsers = urlsForUser(user1); //URLs where the userID is equal to the id of the currently logged-in user
+  const urlOfTheUsers = urlsForUser(urlDatabase, user1); //URLs where the userID is equal to the id of the currently logged-in user
 
   const templateVars = { 
     // urls: urlDatabase, update to:
@@ -97,7 +99,7 @@ app.get("/urls", (req, res) => {
 });
 
 // @ route            GET /urls/new (Should ebe above app.get("/urls/:id", ...) // routes should be ordered from most specific to least specific)
-// @ description      To present the form to the user
+// @ description      To present the form to create the new user
 // @ access           Public
 app.get("/urls/new", (req, res) => {
 
@@ -170,7 +172,7 @@ app.get("/urls/:shortURL", (req, res) => {
   if (!user) {
     return res.redirect('/login');
   }
-  const urlOfTheUsers = urlsForUser(user);
+  const urlOfTheUsers = urlsForUser(urlDatabase, user);
   
   // const templateVars = { 
   //   shortURL: req.params.shortURL, 
@@ -179,7 +181,7 @@ app.get("/urls/:shortURL", (req, res) => {
   
   const shortURL = req.params.shortURL;
   // const longURL = urlDatabase[shortURL]; update after updating urlDatabase obj
-  const longURL = urlDatabase[shortURL].longURL;
+  const longURL = urlDatabase[shortURL].longURL; // OR: urlDatabase[shortURL] && urlDatabase[shortURL].longURL;
 
   const templateVars = { 
     shortURL, 
@@ -241,7 +243,7 @@ app.post("/urls/:shortURL", (req, res) => {
 });
 
 // @ route            GET /register
-// @ description      Registration Page
+// @ description      Display the register page
 // @ access           Public
 app.get("/register", (req, res) => {
   const templateVars = { 
@@ -265,13 +267,14 @@ const fetchEmail = function(database, email) {
 };
 
 // @ route            POST /register
-// @ description      Registration Page
+// @ description      Register and add the new user in the users db
 // @ access           Public
 app.post("/register", (req, res) => {
   
   // console.log("req.body of POST /register", req.body); //{ email: 'amerimahsa@yahoo.com', password: '123'}
 
   const randomId = generateRandomString();
+  // extract the email and password from the submitted form
   const email = req.body.email;
   const password = req.body.password; // OR const {email, password} = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10); //hashing pass
@@ -323,9 +326,10 @@ app.post("/login", (req, res) => {
 
   // res.cookie('username', req.body.username); //res.cookie for writing the cookie 
   
+  // extract email and password from the login form
   const email = req.body.email;
   const password = req.body.password;
-  const user = fetchEmail(users, email);
+  const user = fetchEmail(users, email); //user => authenticatedUser
 
   if (email.length === 0 || password.length === 0) {
     return res.status(403).send("<h1> 🛑 Email or Password is invalid! 🛑 </h1>");
@@ -348,7 +352,7 @@ app.post("/logout", (req, res) => {
   // res.clearCookie('username', req.body.username); //or res.clearCookie("username") only the key
   //Modify the logout endpoint to clear the correct user_id cookie instead of the username one:
   // res.clearCookie('user_id'); //or: res.cookie('user_id', null)  //update after session:
-  req.session = null;
+  req.session = null; // OR : req.session['user_id'] = null;
   res.redirect("/urls");
 });
 
@@ -363,7 +367,10 @@ app.get("/hello", (req, res) => {
 // @ description      JSON string representing the entire urlDatabase object
 // @ access           Public
 app.get("/urls.json", (req, res) => {
-  // res.json(urlDatabase);
+  res.json(urlDatabase);
+  // res.json(users); //to see hashed pass
+});
+app.get('/users.json', (req, res) => {
   res.json(users); //to see hashed pass
 });
 
