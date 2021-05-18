@@ -24,4 +24,4 @@ Special thanks to **LHL** mentors, instructors and cohorts!
 
 ## Contact
 
-If you have any question or comment please let me know : **_@amerimahsa@yahoo.com_**
+If you have any question or comment please let me know ,Email: **_@amerimahsa@yahoo.com_**
